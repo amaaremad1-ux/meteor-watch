@@ -1,0 +1,655 @@
+/* ==========================================================
+   METEOR WATCH AI — App.css
+   Space Command Center Theme · RTL · Dark
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap");
+
+/* ----------------------------------------------------------
+   1) VARIABLES
+---------------------------------------------------------- */
+:root {
+  --bg-deep: #04060f;
+  --bg-space: #070b1a;
+  --bg-panel: rgba(14, 20, 40, 0.72);
+  --bg-solid: #0d1428;
+  --bg-elevated: rgba(26, 36, 66, 0.85);
+
+  --border: rgba(120, 170, 255, 0.14);
+  --border-strong: rgba(120, 200, 255, 0.34);
+
+  --text: #e8f0ff;
+  --text-soft: #9fb2d4;
+  --text-dim: #617396;
+
+  --accent: #35d6ff;
+  --accent-2: #7b5cff;
+  --success: #34e0a1;
+  --warn: #ffb457;
+  --danger: #ff4d5e;
+
+  --glow: 0 0 24px rgba(53, 214, 255, 0.35);
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+  --radius: 16px;
+  --sidebar-w: 280px;
+}
+
+/* ----------------------------------------------------------
+   2) RESET
+---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: "Cairo", "Segoe UI", sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: #04060f;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060a15;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(90, 140, 210, 0.28);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 170, 255, 0.5);
+}
+
+/* ----------------------------------------------------------
+   3) APP SHELL
+---------------------------------------------------------- */
+.app {
+  display: flex;
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 600px at 85% -10%, rgba(123, 92, 255, 0.16), transparent 60%),
+    radial-gradient(700px 500px at 10% 110%, rgba(53, 214, 255, 0.12), transparent 60%),
+    var(--bg-space);
+  transition: background 0.6s ease, filter 0.4s ease;
+}
+
+/* Starfield */
+.app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 20% 30%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1.2px 1.2px at 70% 15%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.6px 1.6px at 45% 70%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.3px 1.3px at 12% 85%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 60% 92%, rgba(255, 255, 255, 0.45), transparent);
+  animation: twinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.35; }
+  to   { opacity: 0.9; }
+}
+
+/* وضع الإنذار */
+.app.red-mode {
+  background:
+    radial-gradient(900px 620px at 80% -10%, rgba(255, 77, 94, 0.22), transparent 60%),
+    radial-gradient(700px 500px at 10% 110%, rgba(255, 140, 60, 0.14), transparent 60%),
+    #12060a;
+}
+
+.app.red-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: inset 0 0 180px rgba(255, 40, 70, 0.35);
+  animation: alertPulse 2s ease-in-out infinite;
+}
+
+@keyframes alertPulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.9; }
+}
+
+.app.red-mode {
+  --accent: #ff6b7d;
+  --border-strong: rgba(255, 120, 140, 0.4);
+  --glow: 0 0 26px rgba(255, 77, 94, 0.4);
+}
+
+/* ----------------------------------------------------------
+   4) SIDEBAR
+---------------------------------------------------------- */
+.sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px 20px;
+  background: rgba(7, 11, 26, 0.85);
+  backdrop-filter: blur(18px);
+  border-inline-start: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  border-radius: 16px;
+  color: #04060f;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--glow);
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+.brand h1 {
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  background: linear-gradient(90deg, #fff, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand p {
+  margin-top: 3px;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar nav button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  border: 1px solid transparent;
+  transition: all 0.22s ease;
+  text-align: start;
+}
+
+.sidebar nav button:hover {
+  color: var(--text);
+  background: rgba(90, 150, 255, 0.08);
+  transform: translateX(-4px);
+}
+
+.sidebar nav button.active {
+  color: #fff;
+  background: linear-gradient(90deg, rgba(53, 214, 255, 0.18), rgba(123, 92, 255, 0.1));
+  border-color: var(--border-strong);
+  box-shadow: inset 0 0 20px rgba(53, 214, 255, 0.08);
+}
+
+.sidebar nav button.active .nav-icon {
+  color: var(--accent);
+  text-shadow: var(--glow);
+}
+
+.nav-icon {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  color: var(--text-dim);
+  transition: color 0.22s ease;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toggle {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  transition: all 0.22s ease;
+}
+
+.toggle:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.toggle.on {
+  color: var(--success);
+  border-color: rgba(52, 224, 161, 0.4);
+  background: rgba(52, 224, 161, 0.1);
+}
+
+.toggle.on.danger {
+  color: var(--danger);
+  border-color: rgba(255, 77, 94, 0.45);
+  background: rgba(255, 77, 94, 0.12);
+  animation: alertPulse 1.6s ease-in-out infinite;
+}
+
+.data-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-family: "Share Tech Mono", monospace;
+  color: var(--text-dim);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--warn);
+  flex-shrink: 0;
+}
+
+.dot.live {
+  background: var(--success);
+  box-shadow: 0 0 10px var(--success);
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* ----------------------------------------------------------
+   5) CONTENT
+---------------------------------------------------------- */
+.content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  padding: 32px 36px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.page-description {
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  line-height: 1.9;
+  max-width: 720px;
+  margin-top: 8px;
+}
+
+.error-note {
+  color: var(--warn);
+  font-size: 0.86rem;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 180, 87, 0.08);
+  border: 1px solid rgba(255, 180, 87, 0.28);
+  margin: 16px 0;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+}
+
+.topbar h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.live-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--success);
+  background: rgba(52, 224, 161, 0.1);
+  border: 1px solid rgba(52, 224, 161, 0.32);
+}
+
+.pulse {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 0 rgba(52, 224, 161, 0.7);
+  animation: ping 1.6s infinite;
+}
+
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(52, 224, 161, 0.7); }
+  70%  { box-shadow: 0 0 0 12px rgba(52, 224, 161, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 224, 161, 0); }
+}
+
+/* ----------------------------------------------------------
+   6) DASHBOARD GRID
+---------------------------------------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+/* بطاقة عامة لأي كومبوننت (Simulation / Sensor / AI / Comms) */
+.panel,
+.meteor-simulation,
+.sensor-panel,
+.ai-panel,
+.comms {
+  position: relative;
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel h3,
+.meteor-simulation h3,
+.sensor-panel h3,
+.ai-panel h3,
+.comms h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meteor-simulation canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  background: #02040c;
+  border: 1px solid var(--border);
+}
+
+/* ----------------------------------------------------------
+   7) BUTTONS
+---------------------------------------------------------- */
+.primary-button {
+  padding: 13px 30px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #04060f;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--glow);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+}
+
+.secondary-button {
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: rgba(90, 150, 255, 0.1);
+}
+
+/* ----------------------------------------------------------
+   8) LOADING / SPINNER
+---------------------------------------------------------- */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 320px;
+  color: var(--text-soft);
+  font-size: 0.92rem;
+}
+
+.spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid rgba(120, 170, 255, 0.18);
+  border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ----------------------------------------------------------
+   9) EVENTS PAGE / OBJECT CARDS
+---------------------------------------------------------- */
+.category-page h2 {
+  font-size: 1.7rem;
+  font-weight: 900;
+}
+
+.object-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.object-card {
+  --accent: var(--accent);
+  position: relative;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeUp 0.45s ease both;
+}
+
+.object-card::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+.object-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 26px -6px var(--accent);
+}
+
+.object-card.selected-card {
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 30px -8px var(--accent);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.card-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.card-date {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.object-card h3 {
+  font-size: 1.02rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.card-coords {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  direction: ltr;
+  text-align: start;
+}
+
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
